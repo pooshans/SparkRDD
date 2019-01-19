@@ -17,8 +17,6 @@ object ExtendExample {
       new SalesRecord(colValues(0),colValues(1),colValues(2),colValues(3).toDouble)
     })
 
-    salesRecordRDD.map(_.itemValue).sum
-
     println(salesRecordRDD.totalSales)
 
     // discount RDD
