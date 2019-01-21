@@ -1,4 +1,4 @@
-package spark.extend
+package spark.extend.scala
 
 import org.apache.spark.{Partition, TaskContext}
 import org.apache.spark.rdd.RDD

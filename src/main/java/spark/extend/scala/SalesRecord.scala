@@ -1,4 +1,4 @@
-package spark.extend
+package spark.extend.scala
 
 /**
   * @author PooshanSingh

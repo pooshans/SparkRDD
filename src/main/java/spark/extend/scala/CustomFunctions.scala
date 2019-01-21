@@ -1,4 +1,4 @@
-package spark.extend
+package spark.extend.scala
 
 import org.apache.spark.SparkContext._
 import org.apache.spark.rdd.RDD

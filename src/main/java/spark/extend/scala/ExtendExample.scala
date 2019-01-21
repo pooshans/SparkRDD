@@ -1,7 +1,6 @@
-package spark.extend
+package spark.extend.scala
 
 import org.apache.spark.SparkContext
-import org.apache.spark.SparkContext._
 import CustomFunctions._
 
 /**
@@ -17,10 +16,14 @@ object ExtendExample {
       new SalesRecord(colValues(0),colValues(1),colValues(2),colValues(3).toDouble)
     })
 
-    println(salesRecordRDD.totalSales)
+    println("Total Sales : "+salesRecordRDD.totalSales)
 
     // discount RDD
-    val discountRDD = salesRecordRDD.discount(0.1)
-    println(discountRDD.collect().toList)
+    val discountRDD = salesRecordRDD.discount(0.1) // 10% discount.
+
+    discountRDD.collect().foreach({
+      println("Txn Id,Cust Id,Item Id,Item Value");
+      println(_);
+    });
   }
 }
