@@ -1,9 +1,11 @@
 package spark.extend.java;
 
+import java.io.Serializable;
+
 /**
  * @author PooshanSingh
  */
-public class SalesRecord implements Comparable<SalesRecord>{
+public class SalesRecord implements Comparable<SalesRecord>,Serializable {
     private String transactionId;
     private String customerId;
     private String itemId;
