@@ -83,6 +83,14 @@ public class DiscountRDD extends RDD<SalesRecord> {
                     salesRecords = null;
                 }
             }
+
+            // for remaining part.
+            if(salesRecords != null){
+                DiscountPartition discountPartition = new DiscountPartition(index,salesRecords.toArray(new SalesRecord[]{}));
+                discountPartitions.add(discountPartition);
+                index++;
+                salesRecords = null;
+            }
             return discountPartitions.toArray(new DiscountPartition[]{});
 
         } catch (IOException e) {
