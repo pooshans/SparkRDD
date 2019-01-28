@@ -6,7 +6,6 @@ import org.apache.spark.TaskContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.rdd.RDD;
-import scala.collection.AbstractIterator;
 import scala.collection.Iterator;
 import scala.collection.mutable.ArrayBuffer;
 import scala.reflect.ClassManifestFactory$;
@@ -51,6 +50,11 @@ public class DiscountRDD extends RDD<SalesRecord> {
     }
 
     public Partition[] getPartitions() {
+        return makePartitions();
+
+    }
+
+    private Partition[] makePartitions() {
         List<DiscountPartition> discountPartitions = new ArrayList<DiscountPartition>();
         int index = 0;
         BufferedReader objReader = null;
@@ -94,70 +98,10 @@ public class DiscountRDD extends RDD<SalesRecord> {
                 ex.printStackTrace();
             }
         }
-
-return null;
+        return null;
     }
 
 
-    /**
-     * Each partition definition
-     **/
-    public static class DiscountPartition implements Partition {
-        private static final long serialVersionUID = 1L;
-        private int index;
-        private SalesRecord[] salesRecords;
-
-        public DiscountPartition(int index,SalesRecord[] salesRecords) {
-            this.index = index;
-            this.salesRecords = salesRecords;
-        }
-
-        @Override
-        public int index() {
-            return index;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if(!(obj instanceof DiscountPartition)) {
-                return false;
-            }
-            return ((DiscountPartition)obj).index != index;
-        }
-
-        @Override
-        public int hashCode() {
-            return index();
-        }
-    }
-
-    /**
-     * Iterators over all SalesRecords
-     */
-    public static class DiscountIterator extends AbstractIterator<SalesRecord> {
-        private SalesRecord[] salesRecords;
-        private int rowIndex = 0;
-
-
-        public DiscountIterator(DiscountPartition discountPartition) {
-            this.salesRecords = discountPartition.salesRecords;
-
-        }
-
-        @Override
-        public boolean hasNext() {
-            return rowIndex < salesRecords.length;
-        }
-
-        @Override
-        public SalesRecord next() {
-            double discount = salesRecords[rowIndex].getItemValue()*discountPercentage;
-            SalesRecord newSalesRecord =  new SalesRecord(salesRecords[rowIndex].getTransactionId(),salesRecords[rowIndex].getCustomerId(),salesRecords[rowIndex].getItemId(),discount);
-            rowIndex++;
-            return  newSalesRecord;
-
-        }
-    }
 }
 
 
