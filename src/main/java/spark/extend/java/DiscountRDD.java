@@ -61,11 +61,17 @@ public class DiscountRDD extends RDD<SalesRecord> {
         try {
             String strCurrentLine;
 
-            objReader = new BufferedReader(new FileReader(dataSource));
+            objReader = new BufferedReader(new FileReader("src/main/resources/"+dataSource));
             List<SalesRecord> salesRecords = null;
             int rowCount = 0;
+            boolean isFirstLine = true;
 
             while ((strCurrentLine = objReader.readLine()) != null) {
+                if(isFirstLine) { //skip header
+                    isFirstLine = false;
+                    continue;
+
+                }
                 if(salesRecords == null){
                     salesRecords = new ArrayList<>();
                 }
