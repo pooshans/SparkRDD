@@ -9,12 +9,14 @@ public class DiscountPartition implements Partition {
     private static final long serialVersionUID = 1L;
     private int index;
     private int rddId;
-    protected SalesRecord[] salesRecords;
+    protected String dataSource;
+    protected double discount;
 
-    public DiscountPartition(int rddId,int index, SalesRecord[] salesRecords) {
+    public DiscountPartition(int rddId,int index, String dataSource,double discount) {
         this.index = index;
-        this.salesRecords = salesRecords;
+        this.dataSource = dataSource;
         this.rddId = rddId;
+        this.discount = discount;
     }
 
     @Override

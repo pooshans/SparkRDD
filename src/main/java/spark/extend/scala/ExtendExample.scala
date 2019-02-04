@@ -10,7 +10,7 @@ object ExtendExample {
   def main(args: Array[String]) {
 
     val sc = new SparkContext("local[*]", "extendingspark")
-    val dataRDD = sc.textFile("/Users/pooshans/research/code/blog/SparkRDD/src/main/resources/sales.csv")
+    val dataRDD = sc.textFile("/Users/pooshans/research/code/blog/SparkRDD/src/main/resources/sales1")
     val salesRecordRDD = dataRDD.map(row => {
       val colValues = row.split(",")
       new SalesRecord(colValues(0),colValues(1),colValues(2),colValues(3).toDouble)

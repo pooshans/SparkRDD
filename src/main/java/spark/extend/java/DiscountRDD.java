@@ -1,7 +1,6 @@
 package spark.extend.java;
 
 import org.apache.spark.Partition;
-import org.apache.spark.SparkContext;
 import org.apache.spark.TaskContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -11,9 +10,6 @@ import scala.collection.mutable.ArrayBuffer;
 import scala.reflect.ClassManifestFactory$;
 import scala.reflect.ClassTag;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,20 +22,13 @@ public class DiscountRDD extends RDD<SalesRecord> {
     private RDD<SalesRecord> prev;
     private static final ClassTag<SalesRecord> SALES_RECORD_CLASS_TAG_TAG = ClassManifestFactory$.MODULE$.fromClass(SalesRecord.class);
     private JavaRDD<SalesRecord> salesRecordRDD;
-    private String dataSource;
+    private List<String> dataSources;
 
-    private SparkContext sc;
-    public DiscountRDD(JavaRDD<SalesRecord> salesRecordRDD, double discountPercentage) {
-        super(salesRecordRDD.rdd(),SALES_RECORD_CLASS_TAG_TAG);
-        this.discountPercentage = discountPercentage;
-        this.salesRecordRDD = salesRecordRDD;
-    }
-
-    public DiscountRDD(JavaSparkContext sc, String dataSource, double discountPercentage) {
+    public DiscountRDD(JavaSparkContext sc, List<String> dataSources, double discountPercentage) {
         super(sc.sc(),new ArrayBuffer<>(),SALES_RECORD_CLASS_TAG_TAG);
         this.discountPercentage = discountPercentage;
         this.salesRecordRDD = salesRecordRDD;
-        this.dataSource = dataSource;
+        this.dataSources = dataSources;
     }
 
 
@@ -55,64 +44,13 @@ public class DiscountRDD extends RDD<SalesRecord> {
     }
 
     private Partition[] makePartitions() {
-        List<DiscountPartition> discountPartitions = new ArrayList<DiscountPartition>();
+        List<DiscountPartition> discountPartitions = new ArrayList<>();
         int index = 0;
-        BufferedReader objReader = null;
-        try {
-            String strCurrentLine;
-
-            objReader = new BufferedReader(new FileReader("src/main/resources/"+dataSource));
-            List<SalesRecord> salesRecords = null;
-            int rowCount = 0;
-            boolean isFirstLine = true;
-
-            while ((strCurrentLine = objReader.readLine()) != null) {
-                if(isFirstLine) { //skip header
-                    isFirstLine = false;
-                    continue;
-
-                }
-                if(salesRecords == null){
-                    salesRecords = new ArrayList<>();
-                }
-
-
-                String[] colValues = strCurrentLine.split(",");
-                SalesRecord salesRecord =  new SalesRecord(colValues[0], colValues[1], colValues[2], Double.valueOf(colValues[3]));
-                salesRecords.add(salesRecord);
-                rowCount++;
-                if(rowCount%2 == 0){
-                    //Each partition will have two row.
-                    DiscountPartition discountPartition = new DiscountPartition(id(),index,salesRecords.toArray(new SalesRecord[]{}));
-                    discountPartitions.add(discountPartition);
-                    index++;
-                    salesRecords = null;
-                }
-            }
-
-            // for remaining part.
-            if(salesRecords != null){
-                DiscountPartition discountPartition = new DiscountPartition(id(),index,salesRecords.toArray(new SalesRecord[]{}));
-                discountPartitions.add(discountPartition);
-                index++;
-                salesRecords = null;
-            }
-            return discountPartitions.toArray(new DiscountPartition[]{});
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        } finally {
-
-            try {
-                if (objReader != null)
-                    objReader.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        for(String dataSource : dataSources) {
+            DiscountPartition discountPartition = new DiscountPartition(id(), index++,"src/main/resources/"+dataSource,discountPercentage);
+            discountPartitions.add(discountPartition);
         }
-        return null;
+        return discountPartitions.toArray(new DiscountPartition[]{});
     }
 
 
