@@ -83,7 +83,7 @@ public class DiscountRDD extends RDD<SalesRecord> {
                 rowCount++;
                 if(rowCount%2 == 0){
                     //Each partition will have two row.
-                    DiscountPartition discountPartition = new DiscountPartition(index,salesRecords.toArray(new SalesRecord[]{}));
+                    DiscountPartition discountPartition = new DiscountPartition(id(),index,salesRecords.toArray(new SalesRecord[]{}));
                     discountPartitions.add(discountPartition);
                     index++;
                     salesRecords = null;
@@ -92,7 +92,7 @@ public class DiscountRDD extends RDD<SalesRecord> {
 
             // for remaining part.
             if(salesRecords != null){
-                DiscountPartition discountPartition = new DiscountPartition(index,salesRecords.toArray(new SalesRecord[]{}));
+                DiscountPartition discountPartition = new DiscountPartition(id(),index,salesRecords.toArray(new SalesRecord[]{}));
                 discountPartitions.add(discountPartition);
                 index++;
                 salesRecords = null;

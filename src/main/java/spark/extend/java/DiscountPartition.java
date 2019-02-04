@@ -8,11 +8,13 @@ import org.apache.spark.Partition;
 public class DiscountPartition implements Partition {
     private static final long serialVersionUID = 1L;
     private int index;
+    private int rddId;
     protected SalesRecord[] salesRecords;
 
-    public DiscountPartition(int index, SalesRecord[] salesRecords) {
+    public DiscountPartition(int rddId,int index, SalesRecord[] salesRecords) {
         this.index = index;
         this.salesRecords = salesRecords;
+        this.rddId = rddId;
     }
 
     @Override
@@ -30,6 +32,6 @@ public class DiscountPartition implements Partition {
 
     @Override
     public int hashCode() {
-        return index();
+        return 41 * (41 + rddId) + index();
     }
 }
