@@ -10,8 +10,8 @@ import java.io.IOException;
 /**
  * Iterators over all SalesRecords
  */
-public class DiscountIterator extends AbstractIterator<SalesRecord> {
-    private DiscountPartition discountPartition;
+public class FeeConcessionIterator extends AbstractIterator<Student> {
+    private FeeConcessionPartition feeConcessionPartition;
     private int rowIndex = 0;
     BufferedReader objReader;
     boolean isFirstLine = true;
@@ -19,10 +19,10 @@ public class DiscountIterator extends AbstractIterator<SalesRecord> {
 
 
 
-    public DiscountIterator(DiscountPartition discountPartition) {
-        this.discountPartition = discountPartition;
+    public FeeConcessionIterator(FeeConcessionPartition feeConcessionPartition) {
+        this.feeConcessionPartition = feeConcessionPartition;
         try {
-            objReader = new BufferedReader(new FileReader(discountPartition.dataSource));
+            objReader = new BufferedReader(new FileReader(feeConcessionPartition.dataSource));
             objReader.readLine(); // skip the header
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -44,10 +44,12 @@ public class DiscountIterator extends AbstractIterator<SalesRecord> {
     }
 
     @Override
-    public SalesRecord next() {
-                String[] colValues = strCurrentLine.split(",");
-                SalesRecord salesRecord =  new SalesRecord(colValues[0], colValues[1], colValues[2], Double.valueOf(colValues[3])*discountPartition.discount);
-                return salesRecord;
+    public Student next() {
+        //Student Name,Roll Number,Semester,Category,Fee
+        //ABC         ,001        ,1       ,5   ,50000.0
 
+                String[] colValues = strCurrentLine.split(",");
+                Student student =  new Student(colValues[0].trim(), colValues[1].trim(), Integer.valueOf(colValues[2].trim()),Integer.valueOf(colValues[3].trim()),Double.valueOf(colValues[4].trim())*feeConcessionPartition.feeConcessionPercentage);
+                return student;
     }
 }

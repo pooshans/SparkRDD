@@ -16,15 +16,15 @@ import java.util.List;
 /**
  * @author PooshanSingh
  */
-public class DiscountRDD extends RDD<SalesRecord> {
+public class FeeConcessionRDD extends RDD<Student> {
 
     protected static  double discountPercentage;
-    private RDD<SalesRecord> prev;
-    private static final ClassTag<SalesRecord> SALES_RECORD_CLASS_TAG_TAG = ClassManifestFactory$.MODULE$.fromClass(SalesRecord.class);
-    private JavaRDD<SalesRecord> salesRecordRDD;
+    private RDD<Student> prev;
+    private static final ClassTag<Student> SALES_RECORD_CLASS_TAG_TAG = ClassManifestFactory$.MODULE$.fromClass(Student.class);
+    private JavaRDD<Student> salesRecordRDD;
     private List<String> dataSources;
 
-    public DiscountRDD(JavaSparkContext sc, List<String> dataSources, double discountPercentage) {
+    public FeeConcessionRDD(JavaSparkContext sc, List<String> dataSources, double discountPercentage) {
         super(sc.sc(),new ArrayBuffer<>(),SALES_RECORD_CLASS_TAG_TAG);
         this.discountPercentage = discountPercentage;
         this.salesRecordRDD = salesRecordRDD;
@@ -33,9 +33,9 @@ public class DiscountRDD extends RDD<SalesRecord> {
 
 
     @Override
-    public Iterator<SalesRecord> compute(Partition split, TaskContext context) {
-        DiscountPartition  discountPartition = (DiscountPartition)split;
-        return new DiscountIterator(discountPartition);
+    public Iterator<Student> compute(Partition split, TaskContext context) {
+        FeeConcessionPartition feeConcessionPartition = (FeeConcessionPartition)split;
+        return new FeeConcessionIterator(feeConcessionPartition);
     }
 
     public Partition[] getPartitions() {
@@ -44,13 +44,13 @@ public class DiscountRDD extends RDD<SalesRecord> {
     }
 
     private Partition[] makePartitions() {
-        List<DiscountPartition> discountPartitions = new ArrayList<>();
+        List<FeeConcessionPartition> feeConcessionPartitions = new ArrayList<>();
         int index = 0;
         for(String dataSource : dataSources) {
-            DiscountPartition discountPartition = new DiscountPartition(id(), index++,"src/main/resources/"+dataSource,discountPercentage);
-            discountPartitions.add(discountPartition);
+            FeeConcessionPartition feeConcessionPartition = new FeeConcessionPartition(id(), index++,"src/main/resources/"+dataSource,discountPercentage);
+            feeConcessionPartitions.add(feeConcessionPartition);
         }
-        return discountPartitions.toArray(new DiscountPartition[]{});
+        return feeConcessionPartitions.toArray(new FeeConcessionPartition[]{});
     }
 
 

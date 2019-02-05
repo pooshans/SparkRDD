@@ -5,18 +5,18 @@ import org.apache.spark.Partition;
 /**
  * Each partition definition
  **/
-public class DiscountPartition implements Partition {
+public class FeeConcessionPartition implements Partition {
     private static final long serialVersionUID = 1L;
     private int index;
     private int rddId;
     protected String dataSource;
-    protected double discount;
+    protected double feeConcessionPercentage;
 
-    public DiscountPartition(int rddId,int index, String dataSource,double discount) {
+    public FeeConcessionPartition(int rddId, int index, String dataSource, double feeConcessionPercentage) {
         this.index = index;
         this.dataSource = dataSource;
         this.rddId = rddId;
-        this.discount = discount;
+        this.feeConcessionPercentage = feeConcessionPercentage;
     }
 
     @Override
@@ -26,10 +26,10 @@ public class DiscountPartition implements Partition {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof DiscountPartition)) {
+        if(!(obj instanceof FeeConcessionPartition)) {
             return false;
         }
-        return ((DiscountPartition)obj).index != index;
+        return ((FeeConcessionPartition)obj).index != index;
     }
 
     @Override

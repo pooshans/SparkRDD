@@ -12,17 +12,15 @@ public class SparkExtendExample {
     public static void main(String[] args) {
 
         List<String> dataSources = new ArrayList<>();
-        dataSources.add("sales1");
-        dataSources.add("sales2");
+        dataSources.add("StudentRecords1");
+        dataSources.add("StudentRecords2");
 
         JavaSparkContext sc = new JavaSparkContext("local[*]", "extendingspark");
 
-        DiscountRDD discountRDD = new DiscountRDD(sc, dataSources,0.1);
+        FeeConcessionRDD feeConcessionRDD = new FeeConcessionRDD(sc, dataSources,0.1);
 
-        System.out.println("Total count : " + discountRDD.toJavaRDD().collect().size());
+        System.out.println("Total count : " + feeConcessionRDD.toJavaRDD().collect().size());
 
-        discountRDD.toJavaRDD().collect().forEach(e->{
-            System.out.println(e.getTransactionId()+","+e.getCustomerId()+","+e.getItemId()+","+e.getItemValue());
-        });
+        System.out.println(feeConcessionRDD.toJavaRDD().collect());
     }
 }
