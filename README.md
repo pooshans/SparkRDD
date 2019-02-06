@@ -1,5 +1,5 @@
 ###### Introduction:
-This is basically implementing the the exposed API's which Spark RDD extends. Spark provides plug-in facility of external custom datasource model into Spark Resilient Distributed Datasets (RDD) ecosystem which we basically have incorporated through this implementation. 
+This is basically implementing the exposed API's which Spark RDD extends. Spark provides plug-in facility of external custom datasource model into Spark Resilient Distributed Datasets (RDD) ecosystem which we basically have incorporated through this implementation. 
  
 ###### Installation guidelines.
 1. Clone the project.
