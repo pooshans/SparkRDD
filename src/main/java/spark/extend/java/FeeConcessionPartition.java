@@ -3,7 +3,7 @@ package spark.extend.java;
 import org.apache.spark.Partition;
 
 /**
- * Each partition definition
+ * Each partition definition. It consist of set of student records.
  **/
 public class FeeConcessionPartition implements Partition {
     private static final long serialVersionUID = 1L;

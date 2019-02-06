@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Iterators over all SalesRecords
+ * Iterators over all StudentsRecords which is part of partition {@link spark.extend.java.FeeConcessionPartition}
  */
 public class FeeConcessionIterator extends AbstractIterator<Student> {
     private FeeConcessionPartition feeConcessionPartition;
@@ -48,8 +48,14 @@ public class FeeConcessionIterator extends AbstractIterator<Student> {
         //Student Name,Roll Number,Semester,Category,Fee
         //ABC         ,001        ,1       ,5   ,50000.0
 
-                String[] colValues = strCurrentLine.split(",");
-                Student student =  new Student(colValues[0].trim(), colValues[1].trim(), Integer.valueOf(colValues[2].trim()),Integer.valueOf(colValues[3].trim()),Double.valueOf(colValues[4].trim())*feeConcessionPartition.feeConcessionPercentage);
-                return student;
+       String[] colValues = strCurrentLine.split(",");
+       String studentName = (colValues[0]!= null) ? colValues[0].trim() : "";
+       String rollNumber = (colValues[1] != null) ? colValues[1].trim() : "";
+       int semester = (colValues[2] != null ) ? Integer.valueOf(colValues[2].trim()): -1;
+       int categoryCode = (colValues[3] != null) ? Integer.valueOf(colValues[3].trim()) : -1;
+       double fee = (colValues[4] != null) ? Double.valueOf(colValues[4].trim()) : 0.0;
+
+       Student student =  new Student(studentName, rollNumber, semester,categoryCode,fee*feeConcessionPartition.feeConcessionPercentage);
+       return student;
     }
 }
