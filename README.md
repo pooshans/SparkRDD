@@ -6,3 +6,8 @@ This is basically implementing the exposed API's which Spark RDD extends. Spark 
 2. You should have java 8 version or higher.
 3. mvn clean install
 4. Run the *SparkExtendExample* main java class.
+
+###### limitations:
+1. Currently we support for Java but need to extend for pyspark.
+2. Currently, we support the simple text file as we have BufferedReader. We can do so for other's data type if we have such reader supported.
+4. Handling the breaking of the code in some corner cases.
