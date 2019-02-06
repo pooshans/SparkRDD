@@ -2,6 +2,9 @@
 This is basically implementing the exposed API's which Spark RDD extends. Spark provides plug-in facility of external custom datasource model into Spark Resilient Distributed Datasets (RDD) ecosystem which we basically have incorporated through this implementation. The example implemented is for better understanding which will enable the developer to implement his/her usecase according to their own requirement. Currently, we have provided support of text file while for other data type, we must have some own reader to read block or records.
 
 This implementation is inspired by [Spark Research Paper](https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final138.pdf)
+
+### Underlaying conceptual design:
+You can find my analysis of the above spark research paper [here](https://github.com/pooshans/SparkRDD/blob/master/Spark2.0.2%20_%20Extending%20Rich%20API.docx)
  
 ### Installation guidelines.
 1. Clone the project.
