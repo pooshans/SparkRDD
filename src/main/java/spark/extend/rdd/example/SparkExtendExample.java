@@ -1,6 +1,7 @@
-package spark.extend.rdd;
+package spark.extend.rdd.example;
 
 import org.apache.spark.api.java.JavaSparkContext;
+import spark.extend.rdd.FeeConcessionRDD;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,8 @@
-package spark.extend.rdd;
+package spark.extend.iterator;
 
 import scala.collection.AbstractIterator;
+import spark.extend.partition.FeeConcessionPartition;
+import spark.extend.rdd.Student;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -8,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Iterators over all StudentsRecords which is part of partition {@link spark.extend.rdd.FeeConcessionPartition}
+ * Iterators over all StudentsRecords which is part of partition {@link FeeConcessionPartition}
  */
 public class FeeConcessionIterator extends AbstractIterator<Student> {
     private FeeConcessionPartition feeConcessionPartition;
@@ -22,7 +24,7 @@ public class FeeConcessionIterator extends AbstractIterator<Student> {
     public FeeConcessionIterator(FeeConcessionPartition feeConcessionPartition) {
         this.feeConcessionPartition = feeConcessionPartition;
         try {
-            objReader = new BufferedReader(new FileReader(feeConcessionPartition.dataSource));
+            objReader = new BufferedReader(new FileReader(feeConcessionPartition.getDataSource()));
             objReader.readLine(); // skip the header
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -55,7 +57,7 @@ public class FeeConcessionIterator extends AbstractIterator<Student> {
        int categoryCode = (colValues[3] != null) ? Integer.valueOf(colValues[3].trim()) : -1;
        double fee = (colValues[4] != null) ? Double.valueOf(colValues[4].trim()) : 0.0;
 
-       Student student =  new Student(studentName, rollNumber, semester,categoryCode,fee*feeConcessionPartition.feeConcessionPercentage);
+       Student student =  new Student(studentName, rollNumber, semester,categoryCode,fee*feeConcessionPartition.getFeeConcessionPercentage());
        return student;
     }
 }
