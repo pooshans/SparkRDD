@@ -1,4 +1,4 @@
-package spark.extend.rdd.example;
+package spark.extend.example;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import spark.extend.rdd.FeeConcessionRDD;
