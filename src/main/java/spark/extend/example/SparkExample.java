@@ -20,6 +20,7 @@ public class SparkExample {
         JavaRDD javaRDD4 = javaRDD3.cache().map(lines->Arrays.asList(new Object[]{ lines.split(",")[0],lines.split(",")[1],lines.split(",")[2],lines.split(",")[3],Double.valueOf(lines.split(",")[4]) * 0.1}));
         //javaRDD4.toLocalIterator().forEachRemaining(System.out::println);
         System.out.println(javaRDD4.collect());
+        sc.stop();
 
 
     }
