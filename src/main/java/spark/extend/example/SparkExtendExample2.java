@@ -24,5 +24,9 @@ public class SparkExtendExample2 {
         System.out.println("Total count : " + feeConcessionRDD2.toJavaRDD().collect().size());
 
         System.out.println(feeConcessionRDD2.toJavaRDD().collect());
+
+        sc.stop();
+
+
     }
 }
